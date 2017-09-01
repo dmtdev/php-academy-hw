@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма регистрации</title>
+</head>
+<body bgcolor="#f4f5f7">
+<h1>Форма регистрации</h1>
+<form action="http://google.com/" method="post" enctype="multipart/form-data">
+    Имя: <input type="text" name="name" title="Name"><br/>
+    Пароль: <input type="password" name="password" title="Password"><br/>
+    Пол: М<input type="radio" name="gender" value="m" title="Gender"> Ж<input type="radio" name="gender" value="w" title="Gender"><br/>
+    Месяц рождения: <select name="month" title="Month">
+    <option value="1">Январь</option>
+    <option value="2">Февраль</option>
+    <option value="3">Март</option>
+    <option value="4">Апрель</option>
+    <option value="5">Май</option>
+    <option value="6">Июнь</option>
+    <option value="7">Июль</option>
+    <option value="8">Август</option>
+    <option value="9">Сентябрь</option>
+    <option value="10">Октябрь</option>
+    <option value="11">Ноябрь</option>
+    <option value="12">Декабрь</option>
+</select><br/>
+    Старше 18: <input type="checkbox" name="is_adult" title="Adult"><br/>
+    Фото: <input type="file" name="photo"><br><input type="hidden" name="sessid" value="9s40cfl3nn6js1">
+    <input type="submit"> <input type="reset">
+</form>
+</body>
+</html>
