@@ -7,14 +7,14 @@
  */
 
 //1
-echo "Task 1".PHP_EOL;
+echo "Task 1" . PHP_EOL;
 $n = 10;
 for ($i = 0; $i < $n; $i++) {
     echo "Silence is golden" . PHP_EOL;
 }
 
 //2
-echo "Task 2".PHP_EOL;
+echo "Task 2" . PHP_EOL;
 $result = 0;
 $n = 1;
 for ($n; $n < 151; $n++) {
@@ -31,14 +31,14 @@ while ($n < 151) {
 echo $result . PHP_EOL;
 
 //3.1
-echo "Task 3.1".PHP_EOL;
+echo "Task 3.1" . PHP_EOL;
 $n = 1;
 for ($n = 1; $n < 201; $n++) {
     echo $n . PHP_EOL;
 }
 
 //3.2
-echo "Task 3.2".PHP_EOL;
+echo "Task 3.2" . PHP_EOL;
 function is_prime($number)
 {
     for ($i = 2; $i < sqrt($number); $i++) {
@@ -56,7 +56,7 @@ for ($n = 1; $n < 201; $n++) {
 }
 
 //3.3
-echo "Task 3.3".PHP_EOL;
+echo "Task 3.3" . PHP_EOL;
 for ($n = 1; $n < 201; $n++) {
     if (gmp_prob_prime($n)) {
         echo $n . PHP_EOL;
@@ -64,7 +64,7 @@ for ($n = 1; $n < 201; $n++) {
 }
 
 //4
-echo "Task 4".PHP_EOL;
+echo "Task 4" . PHP_EOL;
 $array = array();
 $n = 200;
 for ($n = 200; $n > 0; $n--) {
@@ -78,13 +78,13 @@ while ($n > 1) {
     echo $n . PHP_EOL;
 }
 
-$n=200;
+$n = 200;
 foreach ($array as $v) {
     echo $v . PHP_EOL;
 }
 
 //5
-echo "Task 5".PHP_EOL;
+echo "Task 5" . PHP_EOL;
 $array = array();
 $n = 51;
 $result = 1;
@@ -101,7 +101,7 @@ foreach ($array as $value) {
 echo $result . PHP_EOL;
 
 //6
-echo "Task 6".PHP_EOL;
+echo "Task 6" . PHP_EOL;
 $n = 1000;
 for ($i = 0; $i < $n; $i++) {
     if ($i % 3 == 0 and $i % 5 == 0) {
@@ -118,7 +118,7 @@ while ($i < $n) {
 }
 
 //7
-echo "Task 7".PHP_EOL;
+echo "Task 7" . PHP_EOL;
 $happyNumbersCount = 0;
 $allNumbers = 0;
 for ($i = 100000; $i < 999999; $i++) {
@@ -126,15 +126,13 @@ for ($i = 100000; $i < 999999; $i++) {
     $secondThreeDigits = array();
     $number = $i;
     while ($number % 10 > 0 or $number / 10 > 0) {
+        $remainder = $number % 10;
         if (count($secondThreeDigits) > 2) {
-            $remainder = $number % 10;
             $firstThreeDigits[] = $remainder;
-            $number = ($number - $remainder) / 10;
         } else {
-            $remainder = $number % 10;
             $secondThreeDigits[] = $remainder;
-            $number = ($number - $remainder) / 10;
         }
+        $number = ($number - $remainder) / 10;
     }
     if (array_sum($firstThreeDigits) == array_sum($secondThreeDigits)) {
         echo $i . PHP_EOL;
@@ -142,10 +140,10 @@ for ($i = 100000; $i < 999999; $i++) {
     }
     $allNumbers++;
 }
-echo "Percent of happy numbers: " . round($happyNumbersCount / $allNumbers * 100,2) . PHP_EOL;
+echo "Percent of happy numbers: " . round($happyNumbersCount / $allNumbers * 100, 2) . PHP_EOL;
 
 //8
-echo "Task 8".PHP_EOL;
+echo "Task 8" . PHP_EOL;
 $n = 100;
 $array = array();
 for ($i = 0; $i < $n; $i++) {
@@ -167,7 +165,7 @@ while ($n > 0) {
 }
 
 //9
-echo "Task 9".PHP_EOL;
+echo "Task 9" . PHP_EOL;
 $n = 10;
 $result = array();
 for ($i = 0; $i < $n; $i++) {
@@ -175,7 +173,7 @@ for ($i = 0; $i < $n; $i++) {
 }
 
 //10
-echo "Task 10".PHP_EOL;
+echo "Task 10" . PHP_EOL;
 $array1 = [1, 3, 5, 7, 8];
 $array2 = [3, 5, 88, 99];
 
@@ -199,7 +197,7 @@ for ($i = 0; $i < count($array1); $i++) {
 }
 
 //11
-echo "Task 11".PHP_EOL;
+echo "Task 11" . PHP_EOL;
 $thousands = array(
     1 => "тысяча",
     2 => "тысячи",
@@ -340,13 +338,11 @@ echo join(" ", array_reverse($result)) . PHP_EOL;
 
 
 //12
-echo "Task 12".PHP_EOL;
+echo "Task 12" . PHP_EOL;
 $array = range("a", "z");
 $i = 0;
 foreach ($array as $value) {
-    if ($i % 2) {
-        echo $value;
-    } else {
+    if ($i % 2 != 0) {
         echo $value . PHP_EOL;
     }
     $i++;
