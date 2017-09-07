@@ -8,9 +8,15 @@
 
 echo "<pre>";
 $limit = 11;
-for ($i = 1; $i < $limit; $i++) {
-    for ($j = 1; $j < $limit; $j++) {
-        $composition = $i * $j;
+for ($i = 0; $i < $limit; $i++) {
+    for ($j = 0; $j < $limit; $j++) {
+        if ($i == 0) {
+            $composition = $j;
+        } elseif ($j == 0) {
+            $composition = $i;
+        } else {
+            $composition = $i * $j;
+        }
         if ($composition < 10) {
             $composition = "   " . $composition;
         } elseif ($composition > 9 and $composition < 100) {

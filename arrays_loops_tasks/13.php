@@ -6,14 +6,20 @@
  * Time: 16:52
  */
 
-$i = 1;
-$j = 1;
+$i = 0;
+$j = 0;
 $limit = 11;
 echo "<pre>";
 echo "while:" . PHP_EOL;
 while ($i < $limit) {
     while ($j < $limit) {
-        $composition = $i * $j;
+        if ($i == 0) {
+            $composition = $j;
+        } elseif ($j == 0) {
+            $composition = $i;
+        } else {
+            $composition = $i * $j;
+        }
         if ($composition < 10) {
             $composition = "   " . $composition;
         } elseif ($composition > 9 and $composition < 100) {
@@ -25,16 +31,22 @@ while ($i < $limit) {
         $j++;
     }
     echo PHP_EOL;
-    $j = 1;
+    $j = 0;
     $i++;
 }
 
 echo "foreach:" . PHP_EOL;
-$array = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+$array = array(0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
 foreach ($array as $i) {
     foreach ($array as $j) {
-        $composition = $i * $j;
+        if ($i == 0) {
+            $composition = $j;
+        } elseif ($j == 0) {
+            $composition = $i;
+        } else {
+            $composition = $i * $j;
+        }
         if ($composition < 10) {
             $composition = "   " . $composition;
         } elseif ($composition > 9 and $composition < 100) {
