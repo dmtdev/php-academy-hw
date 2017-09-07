@@ -29,9 +29,16 @@ for ($i = 0; $i < strlen($string); $i++) {
         $result[$i] = $string[$i];
     }
 }
-var_dump($result);
+$rktCounts['r']=0;
+$rktCounts['k']=0;
+$rktCounts['t']=0;
+foreach ($result as $value){
+    $rktCounts[$value]++;
+}
+var_dump($rktCounts);
 
 //Task 3
+//TODO: спецсимволы.. добавить regex..
 $string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 $min = 0;
@@ -70,6 +77,7 @@ $array = array_unique(str_split($string));
 
 
 //Task 7
+//TODO: regexp or special chars search..
 $string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 $array = explode(" ", trim(str_replace(array('.', ','), "", $string)));
@@ -93,6 +101,7 @@ preg_match_all('/[0-9]{1,}/', $string, $numeric);
 var_dump($numeric[0]);
 
 //Task 10.1
+//TODO: add special chars check
 $upperCount = 0;
 $lowerCount = 0;
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing";
@@ -112,6 +121,7 @@ if ($upperCount > $lowerCount) {
 }
 
 //Task 10.2
+//TODO: add special chars check
 $upperCount = 0;
 $lowerCount = 0;
 $letters = range('a', 'z');
@@ -124,6 +134,10 @@ for ($i = 0; $i < strlen($string); $i++) {
         $upperCount++;
     }
 }
+echo '==='.PHP_EOL;
+var_dump($lowerCount);
+var_dump($upperCount);
+echo '==='.PHP_EOL;
 
 if ($upperCount > $lowerCount) {
     $string = strtoupper($tmpString);
@@ -132,6 +146,7 @@ if ($upperCount > $lowerCount) {
 }
 
 //Task 11
+//TODO: add special chars check
 $string = 'abba';
 $isPalindrome = false;
 $array = str_split($string);
@@ -144,6 +159,7 @@ if ($string == $string2) {
 var_dump($isPalindrome);
 
 //Task 12
+//TODO: add special chars check
 $string = "drow yarra gnirts";
 $array = explode(" ", $string);
 $result = array();
