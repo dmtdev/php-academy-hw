@@ -66,19 +66,21 @@ for ($n = 1; $n < 201; $n++) {
 //4
 echo "Task 4" . PHP_EOL;
 $array = array();
+echo "4FOR" . PHP_EOL;
 $n = 200;
 for ($n = 200; $n > 0; $n--) {
     $array[] = $n;
     echo $n . PHP_EOL;
 }
 
+echo "4WHILE" . PHP_EOL;
 $n = 200;
 while ($n > 1) {
     $n--;
     echo $n . PHP_EOL;
 }
 
-$n = 200;
+echo "4FOREACH" . PHP_EOL;
 foreach ($array as $v) {
     echo $v . PHP_EOL;
 }
@@ -141,6 +143,30 @@ for ($i = 100000; $i < 999999; $i++) {
     $allNumbers++;
 }
 echo "Percent of happy numbers: " . round($happyNumbersCount / $allNumbers * 100, 2) . PHP_EOL;
+$happyNumbersCount = 0;
+$allNumbers = 0;
+for ($i = 100000; $i < 1000000; $i++) {
+    $firstThreeDigits = array();
+    $secondThreeDigits = array();
+    $number = $i;
+    while ($number % 10 > 0 or $number / 10 > 0) {
+        if (count($secondThreeDigits) > 2) {
+            $remainder = $number % 10;
+            $firstThreeDigits[] = $remainder;
+            $number = ($number - $remainder) / 10;
+        } else {
+            $remainder = $number % 10;
+            $secondThreeDigits[] = $remainder;
+            $number = ($number - $remainder) / 10;
+        }
+    }
+    if (array_sum($firstThreeDigits) == array_sum($secondThreeDigits)) {
+        echo $i . PHP_EOL;
+        $happyNumbersCount++;
+    }
+    $allNumbers++;
+}
+echo "Percent of happy numbers: " . round($happyNumbersCount / $allNumbers * 100,2) . PHP_EOL;
 
 //8
 echo "Task 8" . PHP_EOL;
@@ -197,7 +223,7 @@ for ($i = 0; $i < count($array1); $i++) {
 }
 
 //11
-echo "Task 11" . PHP_EOL;
+
 $thousands = array(
     1 => "тысяча",
     2 => "тысячи",
@@ -255,7 +281,7 @@ $thousandsDigits = array(
     10 => "десять",
 );
 
-$tens = array(
+$test = array(
     20 => "двадцать",
     30 => "тридцать",
     40 => "сорок",
