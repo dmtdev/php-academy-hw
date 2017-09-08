@@ -8,11 +8,12 @@
 
 //Task 1
 $string = "foo, baz ";
+$letter = 'b';
 $array = explode(" ", trim($string));
 $wordsCount = 0;
 
 foreach ($array as $value) {
-    if ($value[0] == 'b') {
+    if ($value[0] == $letter) {
         $wordsCount++;
     }
 }
@@ -59,11 +60,13 @@ for ($i = 0; $i < count($array) - 1; $i++) {
         $max = strlen($array[$i + 1]);
     }
 }
+echo 'min:'.$min.', max: '.$max.PHP_EOL;
 
 //Task 4
 $string = "Lorem ipsum dolor sit: amet, consectetur adipiscing";
 $array = explode(":", $string);
 $strLen = strlen($array[0]);
+echo $strLen.PHP_EOL;
 
 //Task 5
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing";
@@ -74,6 +77,7 @@ var_dump($abcCount);
 //Task 6
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing";
 $array = array_unique(str_split($string));
+var_dump($array);
 
 
 //Task 7
@@ -86,6 +90,8 @@ for ($i = 0; $i < count($array); $i++) {
         $result[] = $array[$i];
     }
 }
+var_dump($result);
+
 
 //Task 8
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing";
@@ -117,6 +123,7 @@ if ($upperCount > $lowerCount) {
 } elseif ($upperCount < $lowerCount) {
     $string = strtolower($string);
 }
+echo $string.PHP_EOL;
 
 //Task 10.2
 $upperCount = 0;
@@ -133,11 +140,13 @@ for ($i = 0; $i < strlen($tmpString); $i++) {
     }
 }
 
+
 if ($upperCount > $lowerCount) {
     $string = strtoupper($string);
 } elseif ($upperCount < $lowerCount) {
     $string = strtolower($string);
 }
+echo $string.PHP_EOL;
 
 //Task 11
 $string = 'abba';
@@ -162,6 +171,7 @@ foreach ($array as $value) {
 }
 echo join(" ", $result) . PHP_EOL;
 
+
 //Task 12.2
 $string = "drow, yarra. gnirts";
 preg_match_all('/[a-z]{1,}/ui',$string,$words);
@@ -171,7 +181,7 @@ foreach ($words as $value){
     $reverseWords[] = join("",array_reverse(str_split($value)));
 }
 $string = str_replace($words,$reverseWords,$string);
-var_dump($string);
+echo $string.PHP_EOL;
 
 
 //Task 13
