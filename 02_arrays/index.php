@@ -29,22 +29,22 @@ for ($i = 0; $i < strlen($string); $i++) {
         $result[$i] = $string[$i];
     }
 }
-$rktCounts['r']=0;
-$rktCounts['k']=0;
-$rktCounts['t']=0;
-foreach ($result as $value){
+$rktCounts['r'] = 0;
+$rktCounts['k'] = 0;
+$rktCounts['t'] = 0;
+foreach ($result as $value) {
     $rktCounts[$value]++;
 }
 var_dump($rktCounts);
 
 //Task 3
-//TODO: спецсимволы.. добавить regex..
 $string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 $min = 0;
 $max = 0;
 
-$string = str_replace(array('.', ','), "", $string);
+
+$string = preg_replace('/[^a-z\s\-]/i', '', $string);
 $array = explode(" ", trim($string));
 
 $min = strlen($array[0]);
@@ -77,10 +77,9 @@ $array = array_unique(str_split($string));
 
 
 //Task 7
-//TODO: regexp or special chars search..
 $string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-$array = explode(" ", trim(str_replace(array('.', ','), "", $string)));
+$array = explode(" ", trim(preg_replace('/[^a-z\s\-]/i', '', $string)));
 $result = array();
 for ($i = 0; $i < count($array); $i++) {
     if ($array[$i][0] == $array[$i][strlen($array[$i]) - 1]) {
@@ -101,11 +100,10 @@ preg_match_all('/[0-9]{1,}/', $string, $numeric);
 var_dump($numeric[0]);
 
 //Task 10.1
-//TODO: add special chars check
 $upperCount = 0;
 $lowerCount = 0;
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing";
-$tmpString = $string;
+$tmpString = preg_replace('/[^a-z\s\-]/i', '', $string);
 
 for ($i = 0; $i < strlen($tmpString); $i++) {
     if ($tmpString[$i] === strtoupper($tmpString[$i])) {
@@ -121,32 +119,27 @@ if ($upperCount > $lowerCount) {
 }
 
 //Task 10.2
-//TODO: add special chars check
 $upperCount = 0;
 $lowerCount = 0;
 $letters = range('a', 'z');
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing";
+$tmpString = preg_replace('/[^a-z\s\-]/i', '', $string);
 
-for ($i = 0; $i < strlen($string); $i++) {
-    if (in_array($string[$i], $letters)) {
+for ($i = 0; $i < strlen($tmpString); $i++) {
+    if (in_array(strtolower($tmpString[$i]), $letters)) {
         $lowerCount++;
     } else {
         $upperCount++;
     }
 }
-echo '==='.PHP_EOL;
-var_dump($lowerCount);
-var_dump($upperCount);
-echo '==='.PHP_EOL;
 
 if ($upperCount > $lowerCount) {
-    $string = strtoupper($tmpString);
+    $string = strtoupper($string);
 } elseif ($upperCount < $lowerCount) {
     $string = strtolower($string);
 }
 
 //Task 11
-//TODO: add special chars check
 $string = 'abba';
 $isPalindrome = false;
 $array = str_split($string);
@@ -158,8 +151,8 @@ if ($string == $string2) {
 }
 var_dump($isPalindrome);
 
-//Task 12
-//TODO: add special chars check
+//Task 12.1
+//не предусмотрена проверка спецсимволов..
 $string = "drow yarra gnirts";
 $array = explode(" ", $string);
 $result = array();
@@ -169,8 +162,19 @@ foreach ($array as $value) {
 }
 echo join(" ", $result) . PHP_EOL;
 
-//Task 13
+//Task 12.2
+$string = "drow, yarra. gnirts";
+preg_match_all('/[a-z]{1,}/ui',$string,$words);
+$words = $words[0];
+$reverseWords = array();
+foreach ($words as $value){
+    $reverseWords[] = join("",array_reverse(str_split($value)));
+}
+$string = str_replace($words,$reverseWords,$string);
+var_dump($string);
 
+
+//Task 13
 $vowels = array('a', 'e', 'i', 'o', 'u', 'y');
 $consonant = array('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z');
 $string = strtolower('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
@@ -179,16 +183,18 @@ $vowelsCount = 0;
 $consonantCount = 0;
 
 for ($i = 0; $i < strlen($string); $i++) {
-    if (in_array($string[$i], $vowels)) {
+    if (in_array(strtolower($string[$i]), $vowels)) {
         $vowelsCount++;
-    } elseif (!in_array($string[$i], $consonant)) {
+    } elseif (in_array(strtolower($string[$i]), $consonant)) {
         $consonantCount++;
     }
 }
 if ($vowelsCount > $consonantCount) {
     echo "больше гласных" . PHP_EOL;
-} else {
+} elseif ($vowelsCount < $consonantCount) {
     echo "больше согласных" . PHP_EOL;
+} else {
+    echo "количество гласніх и согласніх одинаково" . PHP_EOL;
 }
 
 
