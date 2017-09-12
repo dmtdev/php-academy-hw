@@ -131,4 +131,4 @@ function print_n($n)
     }
 }
 
-print_n(10);
+print_n2(145);
