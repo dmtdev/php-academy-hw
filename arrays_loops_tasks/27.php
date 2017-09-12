@@ -26,3 +26,7 @@ for ($i = 0; $i < $rows; $i++) {
 $table .= "</table>";
 
 echo $table;
+
+function a($a){
+    return $a*$a;
+}
