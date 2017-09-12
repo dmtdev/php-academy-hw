@@ -131,4 +131,40 @@ function print_n($n)
     }
 }
 
-print_n2(145);
+//print_n(10);
+
+//Task 6.fix
+
+/**
+ * @param  int $n
+ */
+function print_n2($n)
+{
+    echo ($n - ($n - 1)) . " ";
+    $n--;
+    if ($n > 1) {
+        print_n2($n);
+    }
+
+}
+
+//print_n2(145);
+
+function print_n3($n)
+{
+    echo $n . " ";
+    $n--;
+    if (0 < $n) {
+        print_n3($n);
+    }
+}
+
+// print_n3(100);
+function print_n4($n)
+{
+    if (--$n > 0) {
+        print_n4($n);
+    }
+    echo $n + 1 . " ";
+}
+print_n4(10);
