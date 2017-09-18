@@ -12,9 +12,9 @@ $array = array('one', 'two', 'three', 'four', 'five', 'six');
 //($previousElem, $nextElem) use ($array)
 $counter = 0;
 //$previousElem, $nextElem
-usort($array, function (&$counter) {
+usort($array, function ($previousElem, $nextElem) use (&$counter) {
     if ($counter % 2 == 0) {
-        $counter+=2;
+        $counter += 2;
         return 1;
     }
 //    else {
@@ -24,9 +24,9 @@ usort($array, function (&$counter) {
 //    return 0;
 });
 
-var_dump($array);
+//var_dump($array);
 
-die();
+//die();
 
 //Task 2 - часто возвращает пустой массив, rand - для ускорения создания массива
 $array = range(1, 1000000, rand(1, 10000));
@@ -63,6 +63,7 @@ function sayHello(string $name)
     echo "Всего поздоровались " . $count . " раз" . PHP_EOL;
 }
 
+//
 sayHello("Dmitry");
 sayHello("Ivan");
 sayHello("Jon");
@@ -107,3 +108,19 @@ function isPalindrome($string)
 
 //isPalindrome("abba");
 //isPalindrome("palindrome");
+
+//Task
+function numRevers(&$number)
+{
+    static $result = 0;
+    if ($number > 0) {
+        $result = ($result + ($number % 10)) * 10;
+        $number = ($number - ($number % 10)) / 10;
+        return numRevers($number);
+    } else {
+        return $result / 10;
+    }
+}
+
+$num = 321;
+echo numRevers($num);
