@@ -5,6 +5,7 @@
  * Date: 19.09.2017
  * Time: 17:17
  */
+date_default_timezone_set("Europe/Kiev") ;
 $filename = __DIR__ . '/data.txt';
 $censoredFilename = __DIR__ . '/censored.txt';
 // Массив содержит все комментарии
@@ -56,17 +57,19 @@ usort($comments, function ($a, $b) {
 // Постраничная навигация
 $commentsPerPage = 5;
 $currentPage = 1;
-$pagesCounter = ceil(count($comments) / 5) + 1;
+$pagesCounter = ceil(count($comments) / $commentsPerPage) + 1;
 if (isset($_GET['p']) && (int)$_GET['p'] > 1) {
     $currentPage = (int)$_GET['p'];
 
 }
 // Вырезать нужные комментарии из $comments
-foreach ($comments as $key => $value) {
-    if (($key) < ($currentPage - 1) * 5 or ($key) > (($currentPage - 1) * 5) + 4) {
-        unset($comments[$key]);
-    }
-}
+//foreach ($comments as $key => $value) {
+//    if (($key) < ($currentPage - 1) * $commentsPerPage or ($key) > (($currentPage - 1) * $commentsPerPage) + 4) {
+//        unset($comments[$key]);
+//    }
+//}
+
+$comments= array_slice($comments,($currentPage-1)*$pagesCounter,5);
 ?>
 <!DOCTYPE html>
     <html>
