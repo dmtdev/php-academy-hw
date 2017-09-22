@@ -47,8 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 foreach ($comments as $key => $value) {
     if (!isset($value['timestamp'])) {
-        // +(3*60*30) - не настроил зону в php.ini
-        $comments[$key]['timestamp'] = strtotime($comments[$key]['date']) + (3 * 60 * 30);
+        $comments[$key]['timestamp'] = strtotime($comments[$key]['date']);
     }
 }
 usort($comments, function ($a, $b) {
