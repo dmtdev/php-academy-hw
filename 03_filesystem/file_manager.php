@@ -22,7 +22,10 @@ $removeParts = ['.'];
 
 //удаление и переименование
 if (isset($_GET['action']) && in_array($_GET['action'], array("remove","delete")) && isset($_GET['name'])){
-    echo $_GET['name'];
+    if(isset($_GET['dir'])){
+        $dir = str_replace('\\',DS,$_GET['dir']);
+    }
+    echo $base.$dir.DS.$_GET['name'];
 
 }
 //удаление и переименование
