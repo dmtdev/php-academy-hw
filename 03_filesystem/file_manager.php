@@ -8,6 +8,8 @@
 define('DS', DIRECTORY_SEPARATOR);
 // Определим корневую директорию
 $base = $_SERVER['DOCUMENT_ROOT'];
+$serverUrl = $_SERVER['REQUEST_URI'];
+
 // Определяем путь выбранной директории относительно корня
 $path = '';
 if (!empty($_GET['dir']) && !in_array($_GET['dir'], ['.', '/'])) {
@@ -17,9 +19,18 @@ if (!empty($_GET['dir']) && !in_array($_GET['dir'], ['.', '/'])) {
 $files = scandir($base . DS . $path);
 // Очищаем от лишних элементов
 $removeParts = ['.'];
+
+//удаление и переименование
+if (isset($_GET['action']) && in_array($_GET['action'], array("remove","delete")) && isset($_GET['name'])){
+    echo $_GET['name'];
+
+}
+//удаление и переименование
+
 $is_file = true;
 $is_editable = false;
 $is_removable = true;
+$dirName = '';
 $editableExtensions = ['txt', 'php'];
 if (!$path) {
     // Если мы в корне - удаляем элемент родительской директории
@@ -41,6 +52,7 @@ foreach ($files as $file) {
         } else {
             $url = $path . DS . $name;
         }
+        $dirName = $name;
         $name = "<a href=\"?dir={$url}\">{$name}</a>";
     }
     if ($is_file) {
@@ -52,6 +64,7 @@ foreach ($files as $file) {
     // Добавляем текущий элемент в массив результата
     $result[] = [
         'name' => $name,
+        'dir_name' => $dirName,
         'size' => round(filesize($absFile) / 1024, 2) . ' кб',
         'created_at' => date('H:i:s d.m.Y', filectime($absFile)),
         'modified_at' => date('H:i:s d.m.Y', filemtime($absFile)),
@@ -96,7 +109,8 @@ foreach ($files as $file) {
                                 $editLink = '';
                             }
                             if ($file['is_removable']) {
-                                $links = '<a href="#">rename</a> | <a href="#">delete</a>';
+                                $links = '<a href="' . $serverUrl  . '&action=rename&name=' . ($file['is_file'] ? $file['name'] : $file['dir_name']) . '">rename</a> |';
+                                $links .= ' <a href="' . $serverUrl  . '&action=delete&name=' . ($file['is_file'] ? $file['name'] : $file['dir_name']) . '">delete</a>';
                             } else {
                                 $links = '';
                             }
