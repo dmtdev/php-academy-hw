@@ -61,15 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Получаем список файлов директории и очищаем от лишних элементов
-//var_dump($imgDir);
 $images = array_diff(scandir($imgDir), ['.', '..']);
 $dirs = getFileDirs($uplDirPrefix);
-//var_dump($dirs);
-
 $res = getFiles($dirs);
-
-var_dump($res);
-
 ?>
 <!DOCTYPE html>
 <html>
