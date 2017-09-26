@@ -5,10 +5,36 @@
  * Date: 9/20/17
  * Time: 18:42
  */
+date_default_timezone_set('Europe/Kiev');
+
 define('DS', DIRECTORY_SEPARATOR);
+
+
+function removeDir(&$path)
+{
+    if (is_dir($path)) {
+        $files = array_diff(scandir($path), ['.', '..']);
+        if (count($files) == 0) {
+            //echo 'delete' . $path . PHP_EOL;
+            rmdir($path);
+        } else {
+            foreach ($files as $value) {
+                $newPath = $path . DS . $value;
+                removeDir($newPath);
+            }
+        }
+    }
+    else{
+        unlink($path);
+    }
+    //echo 'delete' . $path . PHP_EOL;
+
+}
+
 // Определим корневую директорию
 $base = $_SERVER['DOCUMENT_ROOT'];
 $serverUrl = $_SERVER['REQUEST_URI'];
+
 
 // Определяем путь выбранной директории относительно корня
 $path = '';
@@ -21,11 +47,14 @@ $files = scandir($base . DS . $path);
 $removeParts = ['.'];
 
 //удаление и переименование
-if (isset($_GET['action']) && in_array($_GET['action'], array("remove","delete")) && isset($_GET['name'])){
-    if(isset($_GET['dir'])){
-        $dir = str_replace('\\',DS,$_GET['dir']);
+if (isset($_GET['action']) && in_array($_GET['action'], array("rename", "delete")) && isset($_GET['name'])) {
+    if (isset($_GET['dir'])) {
+        $dir = str_replace('\\', DS, $_GET['dir']);
     }
-    echo $base.$dir.DS.$_GET['name'];
+    $filePath = $base . $dir . DS . $_GET['name'];
+    if ($_GET['action'] == 'delete') {
+        removeDir($filePath);
+    }
 
 }
 //удаление и переименование
@@ -56,6 +85,7 @@ foreach ($files as $file) {
             $url = $path . DS . $name;
         }
         $dirName = $name;
+        echo $url.'<br>';
         $name = "<a href=\"?dir={$url}\">{$name}</a>";
     }
     if ($is_file) {
@@ -112,8 +142,8 @@ foreach ($files as $file) {
                                 $editLink = '';
                             }
                             if ($file['is_removable']) {
-                                $links = '<a href="' . $serverUrl  . '&action=rename&name=' . ($file['is_file'] ? $file['name'] : $file['dir_name']) . '">rename</a> |';
-                                $links .= ' <a href="' . $serverUrl  . '&action=delete&name=' . ($file['is_file'] ? $file['name'] : $file['dir_name']) . '">delete</a>';
+                                $links = '<a href="' . $serverUrl . '&action=rename&name=' . ($file['is_file'] ? $file['name'] : $file['dir_name']) . '">rename</a> |';
+                                $links .= ' <a href="' . $serverUrl . '&action=delete&name=' . ($file['is_file'] ? $file['name'] : $file['dir_name']) . '">delete</a>';
                             } else {
                                 $links = '';
                             }
