@@ -149,6 +149,11 @@ foreach ($files as $file) {
 <body>
 <div class="container">
     <div class="row">
+        <?php if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <?= implode('<br>', $errors) ?>
+            </div>
+        <?php endif; ?>
         <div class="col-md-12">
             <?php if ($rename_form): ?>
                 <form method="post" action="<?= $serverUrl ?>">

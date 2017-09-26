@@ -36,3 +36,5 @@ if (isset($_GET['name']) && file_exists($galleryDir . $_GET['name'])) {
     //}
 }
 
+
+
