@@ -56,12 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $file['tmp_name'],
                 $galleryDir . DS . $file['name']
             );
-
         }
-
     }
-
-
 }
 
 // Получаем список файлов директории и очищаем от лишних элементов
@@ -117,12 +113,19 @@ var_dump($res);
                 <?php endforeach; ?>
             </div>
         </div>
-        <?php
-        foreach ($res as $key => $value){
-            echo $key . '=>' . print_r($value,1)."<br /> ";
-        }
-        ?>
+
     </div>
+    <br>
+    <b>Файлы:</b>
+    <br>
+    <?php
+    foreach ($res as $key => $value):
+        foreach ($value as $value2): ?>
+            <a href="<?= $host  . $filesDir . DS . $key . DS . $value2 ?>"><?= $key . DS . $value2 ?></a><br>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+    <br>
+    <br>
 </div>
 </body>
 </html>

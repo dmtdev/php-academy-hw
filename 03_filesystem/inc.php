@@ -13,6 +13,13 @@ $edit_form = false;
 $host = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
 $script = $_SERVER['SCRIPT_NAME'];
 
+//TODO: fix it..
+// так делать нельзя.....
+$filesDir = explode('/',$script);
+unset($filesDir[count($filesDir)-1]);
+$filesDir = str_replace('//','/',join('/',$filesDir));
+// так делать нельзя.....
+
 $mimeFirstPartDir = ['image' => 'gallery_files', 'text' => 'txt', 'video' => 'video', 'audio' => 'audio',];
 $mimeByExtensionDir = [
     'doc' => [
