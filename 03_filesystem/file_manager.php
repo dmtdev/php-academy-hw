@@ -6,58 +6,73 @@
  * Time: 18:42
  */
 date_default_timezone_set('Europe/Kiev');
-
 define('DS', DIRECTORY_SEPARATOR);
-
-
-function removeDir(&$path)
+function removeDir($path)
 {
     if (is_dir($path)) {
         $files = array_diff(scandir($path), ['.', '..']);
-        if (count($files) == 0) {
-            //echo 'delete' . $path . PHP_EOL;
-            rmdir($path);
-        } else {
-            foreach ($files as $value) {
-                $newPath = $path . DS . $value;
+        foreach ($files as $value) {
+            $newPath = $path . DS . $value;
+            if (is_dir($newPath)) {
                 removeDir($newPath);
+            } else {
+                unlink($newPath);
             }
         }
     }
     else{
         unlink($path);
     }
-    //echo 'delete' . $path . PHP_EOL;
-
+    rmdir($path);
 }
 
 // Определим корневую директорию
 $base = $_SERVER['DOCUMENT_ROOT'];
 $serverUrl = $_SERVER['REQUEST_URI'];
-
+$rename_form = false;
+$host = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
+$script = $_SERVER['SCRIPT_NAME'];
 
 // Определяем путь выбранной директории относительно корня
 $path = '';
+$dir = '';
 if (!empty($_GET['dir']) && !in_array($_GET['dir'], ['.', '/'])) {
     $path = $_GET['dir'];
 }
-// Получаем все файлы и директории из текущего пути
-$files = scandir($base . DS . $path);
-// Очищаем от лишних элементов
-$removeParts = ['.'];
 
 //удаление и переименование
+$errors = [];
 if (isset($_GET['action']) && in_array($_GET['action'], array("rename", "delete")) && isset($_GET['name'])) {
     if (isset($_GET['dir'])) {
-        $dir = str_replace('\\', DS, $_GET['dir']);
+        $dir = $_GET['dir'];
     }
     $filePath = $base . $dir . DS . $_GET['name'];
     if ($_GET['action'] == 'delete') {
         removeDir($filePath);
+        header('Location: ' . $host . $script . '?dir=' . $dir);
+    } else if ($_GET['action'] == 'rename' && !isset($_POST['new_name'])) {
+        $rename_form = true;
     }
-
+    else if($_GET['action'] == 'rename' && isset($_POST['new_name'])){
+        if (isset($_POST['new_name'])) {
+            if (file_exists($base . DS . $path . DS . $_POST['new_name'])) {
+                $errors[] = "Файл или директория " . $_POST['new_name'] . " уже существует.";
+            } else if (strlen(trim($_POST['new_name']) < 1)) {
+                $errors[]='Имя не может быть пустым.';
+            }
+            else{
+                rename($base . DS . $path . DS . $_GET['name'], $base . DS . $path . DS . $_POST['new_name']);
+                header('Location: ' . $host . $script . '?dir=' . $dir);
+            }
+        }
+    }
 }
 //удаление и переименование
+
+// Получаем все файлы и директории из текущего пути
+$files = scandir($base . DS . $path);
+// Очищаем от лишних элементов
+$removeParts = ['.'];
 
 $is_file = true;
 $is_editable = false;
@@ -85,7 +100,6 @@ foreach ($files as $file) {
             $url = $path . DS . $name;
         }
         $dirName = $name;
-        echo $url.'<br>';
         $name = "<a href=\"?dir={$url}\">{$name}</a>";
     }
     if ($is_file) {
@@ -122,6 +136,12 @@ foreach ($files as $file) {
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <?php if ($rename_form): ?>
+                <form method="post" action="<?= $serverUrl ?>">
+                    <input type="text" name="new_name" value="<?= $_GET['name'] ?>">
+                    <input type="submit" value="переименовать">
+                </form>
+            <?php endif ?>
             <table class="table table-hover" width="100">
                 <thead>
                 <tr class="bg-warning">
