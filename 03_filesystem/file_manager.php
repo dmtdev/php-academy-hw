@@ -19,8 +19,7 @@ function removeDir($path)
                 unlink($newPath);
             }
         }
-    }
-    else{
+    } else {
         unlink($path);
     }
     rmdir($path);
@@ -30,6 +29,7 @@ function removeDir($path)
 $base = $_SERVER['DOCUMENT_ROOT'];
 $serverUrl = $_SERVER['REQUEST_URI'];
 $rename_form = false;
+$edit_form = false;
 $host = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
 $script = $_SERVER['SCRIPT_NAME'];
 
@@ -42,7 +42,7 @@ if (!empty($_GET['dir']) && !in_array($_GET['dir'], ['.', '/'])) {
 
 //удаление и переименование
 $errors = [];
-if (isset($_GET['action']) && in_array($_GET['action'], array("rename", "delete")) && isset($_GET['name'])) {
+if (isset($_GET['action']) && in_array($_GET['action'], array("rename", "delete", 'edit')) && isset($_GET['name'])) {
     if (isset($_GET['dir'])) {
         $dir = $_GET['dir'];
     }
@@ -52,16 +52,30 @@ if (isset($_GET['action']) && in_array($_GET['action'], array("rename", "delete"
         header('Location: ' . $host . $script . '?dir=' . $dir);
     } else if ($_GET['action'] == 'rename' && !isset($_POST['new_name'])) {
         $rename_form = true;
-    }
-    else if($_GET['action'] == 'rename' && isset($_POST['new_name'])){
+    } else if ($_GET['action'] == 'rename' && isset($_POST['new_name'])) {
         if (isset($_POST['new_name'])) {
             if (file_exists($base . DS . $path . DS . $_POST['new_name'])) {
                 $errors[] = "Файл или директория " . $_POST['new_name'] . " уже существует.";
-            } else if (strlen(trim($_POST['new_name']) < 1)) {
-                $errors[]='Имя не может быть пустым.';
-            }
-            else{
+            } else if (strlen(trim($_POST['new_name'])) < 1) {
+                $errors[] = 'Имя не может быть пустым.';
+            } else {
                 rename($base . DS . $path . DS . $_GET['name'], $base . DS . $path . DS . $_POST['new_name']);
+                header('Location: ' . $host . $script . '?dir=' . $dir);
+            }
+        }
+    } else if ($_GET['action'] == 'edit' && !isset($_POST['new_content'])) {
+        $edit_form = true;
+    } else if ($_GET['action'] == 'edit' && isset($_POST['new_content'])) {
+        echo 111;
+        if (isset($_POST['new_content'])) {
+
+            if (!file_exists($base . DS . $path . DS . $_POST['name'])) {
+                $errors[] = "Файл не существует.";
+            } else {
+                $fp = fopen($base . DS . $path . DS . $_GET['name'],'r+');
+                fwrite($fp,$_POST['new_content']);
+                fclose($fp);
+                //rename($base . DS . $path . DS . $_GET['name'], $base . DS . $path . DS . $_POST['new_name']);
                 header('Location: ' . $host . $script . '?dir=' . $dir);
             }
         }
@@ -157,7 +171,7 @@ foreach ($files as $file) {
                     <tr>
                         <td>
                             <?php if ($file['is_editable']) {
-                                $editLink = '| <a href="#">edit</a>';
+                                $editLink = '| <a href="' . $serverUrl . '&action=edit&name=' . $file['name'] . '">edit</a>';
                             } else {
                                 $editLink = '';
                             }
@@ -179,6 +193,12 @@ foreach ($files as $file) {
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php if ($edit_form): ?>
+                <form method="post" action="<?= $serverUrl ?>">
+                    <textarea rows="10" cols="100" name="new_content"><?php echo file_get_contents($base.DS.$path.DS.$_GET['name']) ?></textarea><br/>
+                    <input type="submit" value="сохранить">
+                </form>
+            <?php endif ?>
         </div>
     </div>
 </div>
