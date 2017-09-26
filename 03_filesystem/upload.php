@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else if (!$uplDir) {
             foreach ($mimeByExtensionDir as $key => $value) {
                 if (in_array(pathinfo($file['name'], PATHINFO_EXTENSION), $value)) {
-                    $uplDir = $value;
+                    $uplDir = $key;
                 }
             }
             if (!$uplDir) {
