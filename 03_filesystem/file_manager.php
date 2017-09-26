@@ -6,37 +6,14 @@
  * Time: 18:42
  */
 date_default_timezone_set('Europe/Kiev');
-define('DS', DIRECTORY_SEPARATOR);
-function removeDir($path)
-{
-    if (is_dir($path)) {
-        $files = array_diff(scandir($path), ['.', '..']);
-        foreach ($files as $value) {
-            $newPath = $path . DS . $value;
-            if (is_dir($newPath)) {
-                removeDir($newPath);
-            } else {
-                unlink($newPath);
-            }
-        }
-    } else {
-        unlink($path);
-    }
-    rmdir($path);
-}
 
 // Определим корневую директорию
-$base = $_SERVER['DOCUMENT_ROOT'];
-$serverUrl = $_SERVER['REQUEST_URI'];
-$rename_form = false;
-$edit_form = false;
-$host = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
-$script = $_SERVER['SCRIPT_NAME'];
+include('inc.php');
 
 // Определяем путь выбранной директории относительно корня
 $path = '';
 $dir = '';
-if (!empty($_GET['dir']) && !in_array($_GET['dir'], ['.', '/'])) {
+if (!empty($_GET['dir']) && !in_array($_GET['dir'], ['.', '/','\\'])) {
     $path = $_GET['dir'];
 }
 
@@ -156,7 +133,7 @@ foreach ($files as $file) {
         <?php endif; ?>
         <div class="col-md-12">
             <?php if ($rename_form): ?>
-                <form method="post" action="<?= $serverUrl ?>">
+                <form method="post" action="<?= $serverUrl ?>" enctype="multipart/form-data">
                     <input type="text" name="new_name" value="<?= $_GET['name'] ?>">
                     <input type="submit" value="переименовать">
                 </form>
@@ -199,7 +176,7 @@ foreach ($files as $file) {
                 </tbody>
             </table>
             <?php if ($edit_form): ?>
-                <form method="post" action="<?= $serverUrl ?>">
+                <form method="post" action="<?= $serverUrl ?>" enctype="multipart/form-data">
                     <textarea rows="10" cols="100" name="new_content"><?php echo file_get_contents($base.DS.$path.DS.$_GET['name']) ?></textarea><br/>
                     <input type="submit" value="сохранить">
                 </form>

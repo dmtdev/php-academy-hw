@@ -4,30 +4,76 @@
  * User: gendos
  * Date: 9/20/17
  * Time: 18:41
+ * @param $uplDirPath
+ * @return array
  */
-define('DS', DIRECTORY_SEPARATOR);
+
+// Тут делаем проверку на mime-type == image/...
+// Если все ок - перемещаем загруженную картинку в свою директорию
+//        $uplDir = explode("/", $file['type'])[0];
+//        if (!is_dir($uplDir)) {
+//            mkdir($galleryDir . DS . $uplDir);
+//        }
+//        move_uploaded_file(
+//            $file['tmp_name'],
+//            $galleryDir . DS . $uplDir . DS . $file['name']
+//        );
+
+include 'inc.php';
 // Определим где мы будет хранить картинки
-$galleryDir = __DIR__ . DS ;
+$uplDirPrefix = __DIR__ . DS;
+$galleryDir = '';
+$imgDir = $uplDirPrefix . 'gallery_files';
 // Если директория не создана - создаем
 $errors = [];
+//$mimeFirstPartDir = ['image' => 'img', 'text' => 'txt', 'video' => 'video', 'audio' => 'audio',];
+//'image' => 'gallery_files' пусть будет одна галерея
+
+$uplDir = '';
+
 // Логика обработки запроса
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file = $_FILES['image'];
     if (file_exists($file['tmp_name'])) {
-        // Тут делаем проверку на mime-type == image/...
-        // Если все ок - перемещаем загруженную картинку в свою директорию
-        $uplDir = explode("/", $file['type'])[0];
-        if(!is_dir($uplDir)){
-            mkdir($galleryDir.DS.$uplDir);
+        if (array_key_exists(explode("/", $file['type'])[0], $mimeFirstPartDir)) {
+            $uplDir = $mimeFirstPartDir[explode("/", $file['type'])[0]];
+        } else if (!$uplDir) {
+            foreach ($mimeByExtensionDir as $key => $value) {
+                if (in_array(pathinfo($file['name'], PATHINFO_EXTENSION), $value)) {
+                    $uplDir = $value;
+                }
+            }
+            if (!$uplDir) {
+                $uplDir = $anotherMime;
+            }
         }
-        move_uploaded_file(
-            $file['tmp_name'],
-            $galleryDir . DS . $uplDir . DS . $file['name']
-        );
+        if ($uplDir) {
+            $galleryDir = $uplDirPrefix . DS . $uplDir;
+            if (!file_exists($galleryDir)) {
+                mkdir($galleryDir);
+            }
+            move_uploaded_file(
+                $file['tmp_name'],
+                $galleryDir . DS . $file['name']
+            );
+
+        }
+
     }
+
+
 }
+
 // Получаем список файлов директории и очищаем от лишних элементов
-$images = array_diff(scandir($galleryDir), ['.', '..']);
+//var_dump($imgDir);
+$images = array_diff(scandir($imgDir), ['.', '..']);
+$dirs = getFileDirs($uplDirPrefix);
+//var_dump($dirs);
+
+$res = getFiles($dirs);
+
+var_dump($res);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,6 +117,11 @@ $images = array_diff(scandir($galleryDir), ['.', '..']);
                 <?php endforeach; ?>
             </div>
         </div>
+        <?php
+        foreach ($res as $key => $value){
+            echo $key . '=>' . print_r($value,1)."<br /> ";
+        }
+        ?>
     </div>
 </div>
 </body>

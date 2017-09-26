@@ -5,7 +5,7 @@
  * Date: 9/20/17
  * Time: 18:41
  */
-define('DS', DIRECTORY_SEPARATOR);
+include ('inc.php');
 // Определим где мы будет хранить картинки
 $galleryDir = __DIR__ . DS . 'gallery_files';
 // Если директория не создана - создаем
