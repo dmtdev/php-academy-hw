@@ -14,7 +14,7 @@ $galleryDir = $_SERVER['DOCUMENT_ROOT'] . DS . GALLERY_FILES . DS;
 if (isset($_GET['name']) && file_exists($galleryDir . $_GET['name'])) {
     //if (explode("/", mime_content_type($galleryDir . $_GET['name']))[0] == 'image') {
     $info = new SplFileInfo($galleryDir . $_GET['name']);
-    $fileExtension = $info->getExtension();
+    $fileExtension = strtolower($info->getExtension());
     $contentType = "";
     switch ($fileExtension) {
         case "gif":
