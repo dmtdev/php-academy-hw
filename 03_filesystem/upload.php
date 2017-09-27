@@ -30,11 +30,10 @@ $errors = [];
 //'image' => 'gallery_files' пусть будет одна галерея
 
 $uplDir = '';
-//TODO: добавить вывод ошибок...
 // Логика обработки запроса
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file = $_FILES['image'];
-    if (file_exists($file['tmp_name']) && $file['size'] < 2090000) {
+    if (file_exists($file['tmp_name']) && $file['size'] < 2000000) {
         if (array_key_exists(explode("/", $file['type'])[0], $mimeFirstPartDir)) {
             $uplDir = $mimeFirstPartDir[explode("/", $file['type'])[0]];
         } else if (!$uplDir) {
@@ -85,7 +84,7 @@ $res = getFiles($dirs);
             <?php endif; ?>
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="file" name="image" required class="form-control" maxlength="2098000">
+                    <input type="file" name="image" required class="form-control" maxlength="2000000">
                 </div>
                 <button type="submit" class="btn btn-primary">
                     Отправить
