@@ -29,9 +29,11 @@ if (isset($_GET['action']) && isset($_GET['name'])) {
         case 'rename': {
             if (!isset($_POST['new_name'])) {
                 $rename_form = true;
+                break;
             } else {
                 if (file_exists($base . $path . DS . $_POST['new_name'])) {
                     $errors[] = "Файл или директория " . $_POST['new_name'] . " уже существует.";
+                    break;
                 } else {
                     rename($base . $path . DS . $_GET['name'], $base . $path . DS . $_POST['new_name']);
                     header('Location: ' . $host . $script . '?dir=' . $path);
@@ -42,8 +44,10 @@ if (isset($_GET['action']) && isset($_GET['name'])) {
         case 'edit': {
             if (!isset($_POST['new_content'])) {
                 $edit_form = true;
+                break;
             } elseif (!file_exists($base . $path . DS . $_GET['name'])) {
                 $errors[] = "Файл не существует.";
+                break;
             } else {
                 $fp = fopen($base . $path . DS . $_GET['name'], 'r+');
                 fwrite($fp, $_POST['new_content']);
