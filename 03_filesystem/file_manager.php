@@ -43,7 +43,6 @@ if (isset($_GET['action']) && in_array($_GET['action'], array("rename", "delete"
     } else if ($_GET['action'] == 'edit' && !isset($_POST['new_content'])) {
         $edit_form = true;
     } else if ($_GET['action'] == 'edit' && isset($_POST['new_content'])) {
-        echo 111;
         if (isset($_POST['new_content'])) {
 
             if (!file_exists($base . DS . $path . DS . $_POST['name'])) {

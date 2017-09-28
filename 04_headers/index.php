@@ -43,6 +43,8 @@ if (count($_FILES)) {
             false,
             true
         );
+        header('Content-Disposition: attachment; filename="' . $file['name'].'"');
+        readfile(__DIR__ . DS . $file['name']);
 
     }
 }
@@ -66,7 +68,7 @@ visits_count: <?= $visits_count ?>
         Отправить
     </button>
 </form>
-<iframe src="frame.php"></iframe>
+<!--<iframe src="frame.php"></iframe>-->
 </body>
 </html>
 
