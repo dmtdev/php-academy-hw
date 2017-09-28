@@ -180,7 +180,7 @@ foreach ($files as $file) {
             <?php if ($edit_form): ?>
                 <form method="post" action="<?= $serverUrl ?>" enctype="multipart/form-data">
                     <textarea rows="10" cols="100"
-                              name="new_content"><?php echo file_get_contents($base . DS . $path . DS . $_GET['name']) ?></textarea><br/>
+                              name="new_content"><?php echo file_get_contents($base . $path . DS . $_GET['name']) ?></textarea><br/>
                     <input type="submit" value="сохранить">
                 </form>
             <?php endif ?>
