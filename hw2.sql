@@ -19,7 +19,7 @@ FROM (
          offices.*,
          count(employees.employeeNumber) AS e_id
        FROM offices
-         LEFT JOIN employees ON offices.officeCode = employees.officeCode
+         INNER JOIN employees ON offices.officeCode = employees.officeCode
        GROUP BY offices.officeCode
        ORDER BY e_id DESC
      ) AS tmp
@@ -33,7 +33,7 @@ FROM
       orders.*,
       count(orderdetails.productCode) product_count
     FROM orders
-      LEFT JOIN orderdetails ON orders.orderNumber = orderdetails.orderNumber
+      INNER JOIN orderdetails ON orders.orderNumber = orderdetails.orderNumber
     GROUP BY orders.orderNumber
   ) AS tmp
 WHERE product_count > 10;
@@ -42,17 +42,8 @@ SELECT
   employees.*,
   count(customers.customerNumber)
 FROM employees
-  LEFT JOIN customers ON employees.employeeNumber = customers.salesRepEmployeeNumber
+  INNER JOIN customers ON employees.employeeNumber = customers.salesRepEmployeeNumber
 GROUP BY employees.employeeNumber;
-
-SELECT
-  offices.*,
-  count(orders.orderNumber)
-FROM offices
-  LEFT JOIN employees ON offices.officeCode = employees.officeCode
-  LEFT JOIN customers ON employees.employeeNumber = customers.salesRepEmployeeNumber
-  LEFT JOIN orders ON customers.customerNumber = orders.orderNumber
-GROUP BY offices.officeCode;
 
 
 SELECT *
