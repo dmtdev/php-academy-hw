@@ -54,12 +54,16 @@ FROM offices
   LEFT JOIN orders ON customers.customerNumber = orders.orderNumber
 GROUP BY offices.officeCode;
 
-# SELECT
-#   offices.*,
-#   count(orders.orderNumber)
-# FROM offices, employees, customers, orders
-# WHERE
-#   offices.officeCode = employees.officeCode
-#   AND employees.employeeNumber = customers.salesRepEmployeeNumber
-#   AND customers.customerNumber = orders.orderNumber
-# GROUP BY offices.officeCode;
+
+SELECT
+  offices.*,
+  count(orders.orderNumber)
+FROM offices, employees, customers, orders
+WHERE
+  offices.officeCode = employees.officeCode
+  AND employees.employeeNumber = customers.salesRepEmployeeNumber
+  AND customers.customerNumber = orders.customerNumber
+  AND YEAR(orders.orderDate) = "2005"
+GROUP BY offices.officeCode
+
+
