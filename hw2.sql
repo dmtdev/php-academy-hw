@@ -55,15 +55,18 @@ FROM offices
 GROUP BY offices.officeCode;
 
 
-SELECT
-  offices.*,
-  count(orders.orderNumber)
-FROM offices, employees, customers, orders
-WHERE
-  offices.officeCode = employees.officeCode
-  AND employees.employeeNumber = customers.salesRepEmployeeNumber
-  AND customers.customerNumber = orders.customerNumber
-  AND YEAR(orders.orderDate) = "2005"
-GROUP BY offices.officeCode
-
+SELECT *
+FROM (
+       SELECT
+         offices.*,
+         count(orders.orderNumber) orders_count
+       FROM offices, employees, customers, orders
+       WHERE
+         offices.officeCode = employees.officeCode
+         AND employees.employeeNumber = customers.salesRepEmployeeNumber
+         AND customers.customerNumber = orders.customerNumber
+         AND YEAR(orders.orderDate) = "2005"
+       GROUP BY offices.officeCode
+     ) tmp
+WHERE orders_count > 5;
 
