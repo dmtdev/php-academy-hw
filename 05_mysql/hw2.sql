@@ -115,5 +115,5 @@ SELECT
   count(DISTINCT orderdetails.orderNumber) orders_count
 FROM productlines
   JOIN products ON productlines.productLine = products.productLine
-  RIGHT JOIN orderdetails ON products.productCode = orderdetails.productCode
+  JOIN orderdetails ON products.productCode = orderdetails.productCode
 GROUP BY productlines.productLine
