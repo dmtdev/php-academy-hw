@@ -42,11 +42,19 @@ if (!empty($_GET['page'])) {
     foreach ($parts as $part) {
         ob_start();
         include 'inc' . DS . $part . '.php';
-        $partContent = str_ireplace(
-            '{{basket}}',
-            "В корзине 3 товара",
-            ob_get_clean()
-        );
+        if ($_SESSION['auth']['state']) {
+            $partContent = str_ireplace(
+                '{{basket}}',
+                "В корзине 3 товара",
+                ob_get_clean()
+            );
+        } else {
+            $partContent = str_ireplace(
+                '{{basket}}',
+                "",
+                ob_get_clean()
+            );
+        }
 
         echo $partContent;
     }
@@ -58,7 +66,7 @@ $pageContent = '';
 if ($_SESSION['auth']['state']) {
     $pageContent = str_ireplace(
         '{{login}}',
-        'Привет, '.  $_SESSION['auth']['login'],
+        'Привет, ' . $_SESSION['auth']['login'],
         ob_get_clean()
     );
 } else {

@@ -5,6 +5,7 @@
  * Date: 9/27/17
  * Time: 19:50
  */
+//TODO fix menu
 ?>
 <div class="container mb-5">
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -22,11 +23,12 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
                 <li class="nav-item active">
-                    <span class="nav-link"><!--{{basket}}--></span>
-                </li>
-                <li class="nav-item active">
                     <span class="nav-link">{{login}}</span>
                 </li>
+                <li class="nav-item active">
+                    <span class="nav-link">{{basket}}</span>
+                </li>
+
             </ul>
         </div>
     </nav>

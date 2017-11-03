@@ -30,12 +30,20 @@ return [
         'auth' => [
             'title' => 'Вход',
             'private' => false,
-            'show' => false
+            'show' => true,
+            'forauth' => false,
         ],
         'registration' => [
             'title' => 'Регистрация',
             'private' => false,
-            'show' => false
+            'show' => true,
+            'forauth' => false,
+        ],
+        'exit' => [
+            'title' => 'exit',
+            'private' => false,
+            'show' => false,
+            'forauth' => true,
         ],
 
     ],
