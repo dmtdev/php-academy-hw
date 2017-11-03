@@ -10,16 +10,27 @@ class Task4
 {
 private $name;
 private $salary;
+private $age;
+
+    /**
+     * @return mixed
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
 
     /**
      * Task4 constructor.
      * @param $name
      * @param $salary
+     * @param $age
      */
-    public function __construct($name, $salary)
+    public function __construct($name, $age, $salary)
     {
         $this->name = $name;
         $this->salary = $salary;
+        $this->age = $age;
     }
 
     /**

@@ -3,14 +3,24 @@
  * Created by PhpStorm.
  * User: root
  * Date: 03.11.2017
- * Time: 10:47
+ * Time: 15:08
  */
 
-class Task2
+class User
 {
-    private $name;
-    private $age;
-    private $salary;
+    protected $name;
+    protected $age;
+
+    /**
+     * User constructor.
+     * @param $name
+     * @param $age
+     */
+    public function __construct($name, $age)
+    {
+        $this->name = $name;
+        $this->age = $age;
+    }
 
     /**
      * @return mixed
@@ -42,21 +52,5 @@ class Task2
     public function setAge($age)
     {
         $this->age = $age;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSalary()
-    {
-        return $this->salary;
-    }
-
-    /**
-     * @param mixed $salary
-     */
-    public function setSalary($salary)
-    {
-        $this->salary = $salary;
     }
 }
