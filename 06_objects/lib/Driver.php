@@ -8,23 +8,23 @@
 
 class Driver extends Worker
 {
-    private $expirience;
+    private $experience;
     private $categories;
 
     /**
      * @return mixed
      */
-    public function getExpirience()
+    public function getExperience()
     {
-        return $this->expirience;
+        return $this->experience;
     }
 
     /**
-     * @param mixed $expirience
+     * @param mixed $experience
      */
-    public function setExpirience($expirience)
+    public function setExperience($experience)
     {
-        $this->expirience = $expirience;
+        $this->experience = $experience;
     }
 
     /**
