@@ -8,5 +8,33 @@
 
 class Form
 {
+    public function open($data)
+    {
+        return
+    }
 
+    public function input($data)
+    {
+
+    }
+
+    public function password($data)
+    {
+
+    }
+
+    public function textarea($data)
+    {
+
+    }
+
+    public function submit($data)
+    {
+
+    }
+
+    public function close($data)
+    {
+        return '</form>';
+    }
 }
