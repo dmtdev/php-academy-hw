@@ -10,31 +10,39 @@ class Form
 {
     public function open($data)
     {
-        return
+        checkArray($data);
+        return ;
     }
 
     public function input($data)
     {
-
+        checkArray($data);
+        return ;
     }
 
     public function password($data)
     {
-
+        checkArray($data);
+        return ;
     }
 
     public function textarea($data)
     {
-
+        checkArray($data);
+        return ;
     }
 
     public function submit($data)
     {
-
+        checkArray($data);
+        return ;
     }
 
-    public function close($data)
+    public function close()
     {
         return '</form>';
+    }
+    private function checkArray($array){
+
     }
 }
