@@ -46,9 +46,9 @@ echo $t3->getAge() . PHP_EOL . PHP_EOL;
 $t4 = new Task4('Dima', 25, 20000);
 echo 'multiply: ' . $t4->getAge() * $t4->getSalary() . PHP_EOL . PHP_EOL;
 
-$w1 = new Worker('ivan',25,1000);
-$w2 = new Worker('vasya',26,2000);
-echo 'salaries sum: ' . ($w1->getSalary() + $w2->getSalary()) . PHP_EOL.PHP_EOL;
+$w1 = new Worker('ivan', 25, 1000);
+$w2 = new Worker('vasya', 26, 2000);
+echo 'salaries sum: ' . ($w1->getSalary() + $w2->getSalary()) . PHP_EOL . PHP_EOL;
 
 
 
