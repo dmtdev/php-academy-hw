@@ -8,7 +8,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usersData = unserialize(file_get_contents('inc' . DS . $config['usersdb']));
     if (isset($usersData[trim($_POST['login'])])) {
-        if ($usersData[trim($_POST['login'])]['password'] == sha1($_POST['password'] . $global['salt'])) {
+        if ($usersData[trim($_POST['login'])]['password'] == sha1($_POST['password'] . $config['salt'])) {
             header('Location: ?page=main');
         }
     }

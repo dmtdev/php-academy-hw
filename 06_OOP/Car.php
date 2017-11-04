@@ -8,6 +8,7 @@
 
 class Car
 {
+    const constant=1;
     /** @var string */
     protected $owner;
     /** @var  float */
@@ -16,6 +17,7 @@ class Car
     protected $isDrive = false;
     private $brand;
 
+    public function &fun(){}
     public function __construct($owner, $price, $color, $brand)
     {
         $this->owner = $owner;
@@ -124,6 +126,5 @@ class Car
         $this->price = $price;
     }
 }
-
 
 

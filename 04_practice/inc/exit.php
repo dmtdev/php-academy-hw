@@ -6,4 +6,4 @@
  * Time: 13:17
  */
 $_SESSION['auth'] = false;
-header('Location: ?page=auth');
+header('Location: ?page=main');
