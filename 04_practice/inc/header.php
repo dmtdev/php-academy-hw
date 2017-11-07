@@ -5,7 +5,6 @@
  * Date: 9/27/17
  * Time: 19:50
  */
-//TODO fix menu
 ?>
 <div class="container mb-5">
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -14,13 +13,33 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <?php foreach ($config['pages'] as $k => $v): ?>
-                    <?php if ($v['show'] == true): ?>
+                    <?php switch ($v['show']): case 'forall': ?>
                         <li class="nav-item active">
                             <a class="nav-link" href="index.php?page=<?= $k ?>">
                                 <?= $v['title'] ?>
                             </a>
                         </li>
-                    <?php endif; ?>
+                        <?php break; ?>
+                    <?php case 'forauth': ?>
+                        <?php if (isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']): ?>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.php?page=<?= $k ?>">
+                                    <?= $v['title'] ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php break; ?>
+                    <?php case 'fornotauth': ?>
+                        <?php if (!isset($_SESSION['auth']['state']) || !$_SESSION['auth']['state']): ?>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.php?page=<?= $k ?>">
+                                    <?= $v['title'] ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php break; ?>
+                    <?php default: ?>
+                    <?php endswitch; ?>
                 <?php endforeach; ?>
                 <li class="nav-item active">
                     <span class="nav-link">{{login}}</span>

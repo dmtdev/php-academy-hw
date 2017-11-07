@@ -5,6 +5,9 @@
  * Date: 03.11.2017
  * Time: 11:33
  */
+if(isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']){
+    header('Location: ?page=main');
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $post = array_map('trim', $_POST);
     $errors = [];

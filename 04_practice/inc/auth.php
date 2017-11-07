@@ -5,10 +5,17 @@
  * Date: 9/27/17
  * Time: 21:01
  */
+if(isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']){
+    header('Location: ?page=main');
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usersData = unserialize(file_get_contents('inc' . DS . $config['usersdb']));
     if (isset($usersData[trim($_POST['login'])])) {
         if ($usersData[trim($_POST['login'])]['password'] == sha1($_POST['password'] . $config['salt'])) {
+            $_SESSION['auth'] = [
+                'state' => true,
+                'login' => $usersData[trim($_POST['login'])]['name'],
+            ];
             header('Location: ?page=main');
         }
     }

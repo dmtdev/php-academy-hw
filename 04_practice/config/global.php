@@ -20,30 +20,27 @@ return [
         'products' => [
             'title' => 'Продукция',
             'private' => true,
-            'show' => true
+            'show' => 'forall',
         ],
         'contacts' => [
             'title' => 'Контакты',
             'private' => true,
-            'show' => true
+            'show' => 'forall',
         ],
         'auth' => [
             'title' => 'Вход',
             'private' => false,
-            'show' => true,
-            'forauth' => false,
+            'show' => 'fornotauth',
         ],
         'registration' => [
             'title' => 'Регистрация',
             'private' => false,
-            'show' => true,
-            'forauth' => false,
+            'show' => 'fornotauth',
         ],
         'exit' => [
-            'title' => 'exit',
+            'title' => 'Выход',
             'private' => false,
-            'show' => false,
-            'forauth' => true,
+            'show' => 'forauth',
         ],
 
     ],

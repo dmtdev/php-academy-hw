@@ -42,7 +42,7 @@ if (!empty($_GET['page'])) {
     foreach ($parts as $part) {
         ob_start();
         include 'inc' . DS . $part . '.php';
-        if ($_SESSION['auth']['state']) {
+        if (isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']) {
             $partContent = str_ireplace(
                 '{{basket}}',
                 "В корзине 3 товара",
@@ -63,7 +63,7 @@ if (!empty($_GET['page'])) {
     </html>
 <?php
 $pageContent = '';
-if ($_SESSION['auth']['state']) {
+if (isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']) {
     $pageContent = str_ireplace(
         '{{login}}',
         'Привет, ' . $_SESSION['auth']['login'],
