@@ -45,6 +45,9 @@ function buildGetParams($params = [])
     return join('&', $getParams);
 }
 
+/**
+ * @return array
+ */
 function buildOptions()
 {
     $options = [];

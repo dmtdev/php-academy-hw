@@ -103,6 +103,10 @@ function createCategory($fields)
     );
 }
 
+/**
+ * @param $fields
+ * @return bool|mysqli_result
+ */
 function createProduct($fields)
 {
     return createEntity(
@@ -111,6 +115,9 @@ function createProduct($fields)
     );
 }
 
+/**
+ * @return mixed
+ */
 function countCategories()
 {
     return countEntry(
@@ -118,6 +125,10 @@ function countCategories()
     );
 }
 
+/**
+ * @param $categoryId
+ * @return mixed
+ */
 function countProducts($categoryId)
 {
     return countEntry(
@@ -165,6 +176,11 @@ function updateCategory($id, $data)
     );
 }
 
+/**
+ * @param $id
+ * @param $data
+ * @return bool|mysqli_result
+ */
 function updateProduct($id, $data)
 {
     return updateEntity(
@@ -186,6 +202,10 @@ function deleteCategory($id)
     return $result;
 }
 
+/**
+ * @param $id
+ * @return bool|mysqli_result
+ */
 function deleteProduct($id)
 {
     $result = deleteEntity($GLOBALS['tablesMap']['product'],
