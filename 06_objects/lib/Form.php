@@ -12,71 +12,101 @@ class Form
     private $rules = [
         'open' => [
             'tag' => 'form',
-            'type' => '',
         ],
         'input' => [
             'tag' => 'input',
-            'type' => 'text',
         ],
         'password' => [
             'tag' => 'input',
-            'type' => 'password',
         ],
         'submit' => [
             'tag' => 'input',
-            'type' => 'submit',
         ],
         'textarea' => [
             'tag' => 'textarea',
-            'type' => '',
         ],
     ];
 
     public function open($data)
     {
-        return '<form ' . $this->parseData($data) . '>';
+        return $this->parseData($data);
     }
 
     public function input($data)
     {
 
-        return '<input ' . $this->parseData($data) . '>';
+        return $this->parseData($data);
     }
 
     public function password($data)
     {
-        return '<input type="password" ' . $this->parseData($data) . '>';
+        return $this->parseData($data);
     }
 
     public function textarea($data)
     {
-        return $this->parseData($data, true);
+        return $this->parseData($data);
     }
 
     public function submit($data)
     {
-        return '<input type="submit" ' . $this->parseData($data) . '>';
+        return $this->parseData($data);
     }
 
     public function close()
     {
-        return '</form>';
+        return $this->parseData();
     }
 
-    private function parseData($data, $isTextarea = false)
+    private function parseData($data = [])
     {
-        $result = '';
         $caller = debug_backtrace()[1]['function'];
-        if (isset($this->rules[$caller])) {
-            $parseRule = $this->rules[$caller];
+        switch ($caller) {
+            case 'open':
+            case 'input':
+                $result = '<' . $this->rules[$caller]['tag'] . ' ' . $this->makeOptions($data) . '>';
+                break;
+            case 'close':
+                $result = '</form>';
+                break;
+            case 'textarea':
+                $value = $data['value'];
+                unset($data['value']);
+                $result = '<' . $this->rules[$caller]['tag'] . ' ' . $this->makeOptions($data) . '>' . $value . '</' . $this->rules[$caller]['tag'] . '>';
+                break;
+            default:
+                $data['type'] = $caller;
+                $result = '<' . $this->rules[$caller]['tag'] . ' ' . $this->makeOptions($data) . '>';
         }
-        if (!$isTextarea) {
-            foreach ($data as $k => $v) {
-                $result .= '"' . $k . '"="' . $v . '" ';
-            }
-        } else {
-            $result = '<textarea placeholder="' . $data['placeholder'] . '">' . $data['value'] . '</textarea>';
+        return $result;
+    }
+
+    private function makeOptions($data)
+    {
+        $options = '';
+        foreach ($data as $k => $v) {
+            $options .= '' . $k . '="' . $v . '" ';
         }
-        return trim($result);
+        return trim($options);
     }
 }
+
+
+$form = new Form();
+echo $form->open(['action' => 'index.php', 'method' => 'POST']);
+//Код выше выведет <form action="index.php" method="POST">
+
+echo $form->input(['type' => 'text', 'value' => '!!!']);
+//Код выше выведет <input type="text" value="!!!">
+
+echo $form->password(['value' => '!!!']);
+//Код выше выведет <input type="password" value="!!!">
+
+echo $form->submit(['value' => 'go']);
+//Код выше выведет <input type="submit" value="go">
+
+echo $form->textarea(['placeholder' => '123', 'value' => '!!!']);
+//Код выше выведет <textarea placeholder="123">!!!</textarea>
+
+echo $form->close();
+//Код выше выведет </form>
