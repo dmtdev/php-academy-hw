@@ -5,6 +5,7 @@
  * Date: 03.11.2017
  * Time: 11:10
  */
+ob_start();
 echo '<pre>';
 spl_autoload_register(function ($name) {
     include_once 'lib/' . $name . '.php';
@@ -51,7 +52,36 @@ $w2 = new Worker('vasya', 26, 2000);
 echo 'salaries sum: ' . ($w1->getSalary() + $w2->getSalary()) . PHP_EOL . PHP_EOL;
 
 
+$form = new Form();
+echo $form->open(['action' => 'index.php', 'method' => 'POST']);
+//Код выше выведет <form action="index.php" method="POST">
 
+echo $form->input(['type' => 'text', 'value' => '!!!']);
+//Код выше выведет <input type="text" value="!!!">
+
+echo $form->password(['value' => '!!!']);
+//Код выше выведет <input type="password" value="!!!">
+
+echo $form->submit(['value' => 'go']);
+//Код выше выведет <input type="submit" value="go">
+
+echo $form->textarea(['placeholder' => '123', 'value' => '!!!']);
+//Код выше выведет <textarea placeholder="123">!!!</textarea>
+
+echo $form->close();
+//Код выше выведет </form>
+
+
+$s = new Session();
+$s->setVar('name', 'value');
+echo $s->getVar('name');
+$s->setVar('name2', 'value2');
+var_dump($_SESSION);
+$s->delVar('name');
+var_dump($_SESSION);
+var_dump($s->isSetVar('name'));
+
+echo ob_get_clean();
 
 
 

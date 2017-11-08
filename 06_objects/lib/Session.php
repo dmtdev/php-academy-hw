@@ -19,15 +19,23 @@ class Session
 
     public function setVar($name, $value)
     {
-
+        $_SESSION[$name] = $value;
     }
 
     public function getVar($name)
     {
+        return $_SESSION[$name];
+    }
 
+    public function delVar($name)
+    {
+        if ($this->isSetVar($name)) {
+            unset($_SESSION[$name]);
+        }
+    }
+
+    public function isSetVar($name)
+    {
+        return isset($_SESSION[$name]);
     }
 }
-
-$s = new Session();
-
-var_dump($_SESSION);
