@@ -7,7 +7,6 @@
  */
 
 
-
 $dbHost = 'localhost';
 $dbUser = 'root';
 $dbPassword = '';
@@ -34,46 +33,60 @@ $tablesMap = [
  * @param null $id
  * @return bool|mysqli_result
  */
-function categoryList($id = null)
+function categoryList($id = null, $page = null)
 {
-    return getList($GLOBALS['tablesMap']['category'], $id);
+    global $categoryPerPage;
+    return getList($GLOBALS['tablesMap']['category'], $id, $page, $categoryPerPage);
 }
 
 
 /**
  * @param null $id
+ * @param null $page
+ * @param $categoryId
  * @return bool|mysqli_result
  */
-function productList($id = null)
+function productList($id = null, $page = null, $categoryId = null)
 {
-    return getList($GLOBALS['tablesMap']['product'], $id);
+    global $productPerPage;
+    return getList($GLOBALS['tablesMap']['product'], $id, $page, $productPerPage, $categoryId);
 }
 
 /**
  * @param $tableName
  * @param null $id
+ * @param null $page
  * @return bool|mysqli_result
  */
-function getList($tableName, $id = null)
+function getList($tableName, $id = null, $page = null, $itemsPerPage = 5, $categoryId = null)
 {
     global $connection;
 
-
-    $where = '';
-
+    $where = [];
+    $limit = '';
     if ($id > 0) {
-        $where = ' WHERE id = '.$id;
+        $where[] = ' id = ' . $id . ' ';
+    }
+    if ($categoryId) {
+        $where[] = ' category_id = ' . $categoryId . ' ';
+    }
+
+    if ($page) {
+        $limit = ' limit ' . (($page - 1) * $itemsPerPage) . ', ' . $itemsPerPage;
+    }
+
+    if (count($where)) {
+        $where = ' WHERE ' . join(' AND ', $where);
+    } else {
+        $where = '';
     }
 
     $result = mysqli_query(
         $connection,
-        "SELECT * FROM $tableName $where;"
+        "SELECT * FROM $tableName $where $limit;"
     );
-
     return $result;
 }
-
-
 
 
 /** Create entity */
@@ -90,6 +103,31 @@ function createCategory($fields)
     );
 }
 
+function createProduct($fields)
+{
+    return createEntity(
+        $GLOBALS['tablesMap']['product'],
+        $fields
+    );
+}
+
+function countCategories()
+{
+    return countEntry(
+        $GLOBALS['tablesMap']['category']
+    );
+}
+
+function countProducts($categoryId)
+{
+    return countEntry(
+        $GLOBALS['tablesMap']['product'],
+        'id',
+        ['category_id' => $categoryId]
+    );
+}
+
+
 /**
  * @param $tableName
  * @param $data
@@ -104,7 +142,7 @@ function createEntity($tableName, $data)
     }
 
     $cols = implode(',', array_keys($data));
-    $values = "'".implode("','", $data)."'";
+    $values = "'" . implode("','", $data) . "'";
     return mysqli_query(
         $connection,
         "INSERT INTO $tableName ($cols) VALUES ($values)"
@@ -127,6 +165,34 @@ function updateCategory($id, $data)
     );
 }
 
+function updateProduct($id, $data)
+{
+    return updateEntity(
+        $GLOBALS['tablesMap']['product'],
+        $id,
+        $data
+    );
+}
+
+/**
+ * @param $id
+ * @return bool|mysqli_result
+ */
+function deleteCategory($id)
+{
+    $result = deleteEntity($GLOBALS['tablesMap']['category'],
+        $id
+    );
+    return $result;
+}
+
+function deleteProduct($id)
+{
+    $result = deleteEntity($GLOBALS['tablesMap']['product'],
+        $id
+    );
+    return $result;
+}
 
 /**
  * @param $tableName
@@ -151,4 +217,42 @@ function updateEntity($tableName, $id, $data)
         $connection,
         "UPDATE $tableName SET $values WHERE id = $id;"
     );
+}
+
+/**
+ * @param $tableName
+ * @param $id
+ * @return bool|mysqli_result
+ */
+function deleteEntity($tableName, $id)
+{
+    global $connection;
+    return mysqli_query(
+        $connection,
+        'DELETE FROM ' . $tableName . ' WHERE id =' . $id
+    );
+}
+
+/**
+ * @param $tableName
+ * @param string $fieldName
+ * @param array $params
+ * @return mixed
+ */
+
+function countEntry($tableName, $fieldName = 'id', $params = [])
+{
+    global $connection;
+    $where = '';
+    if (count($params)) {
+        $where = [];
+        foreach ($params as $k => $v) {
+            $where[] .= ' ' . $k . '=' . $v . ' ';
+        }
+        $where = ' WHERE ' . join(' AND ',$where);
+    }
+    $result = mysqli_query($connection,
+        'SELECT count(' . $fieldName . ') as c from ' . $tableName.$where);
+    $result = mysqli_fetch_array($result);
+    return $result['c'];
 }

@@ -25,13 +25,30 @@ if (isset($_POST['save'])) {
     }
 }
 
-$id = $_GET['id'];
-$categoryResult = categoryList();
+$id = (isset($_GET['id']) ? $_GET['id'] : null);
+$action = (isset($_GET['action']) ? $_GET['action'] : null);
+$currentPage = (isset($_GET['page_num']) ? $_GET['page_num'] : 1);
+$categoryResult = categoryList(null, $currentPage);
+$pagination = buildPagination(countCategories(), $currentPage, $categoryPerPage);
+$errors = [];
+
+if ($action == 'delete') {
+    if (deleteCategory($id)) {
+        header('Location: ?page=category');
+    }
+    $errors[] = 'Can\'t delete an entry, possibly not empty Category';
+}
+
+if (count($errors)) {
+    $errors = join('<br />', $errors); ?>
+    <div>Errors:<br/><?= $errors ?></div>
+    <?php
+}
 ?>
+
 <div>
     <a href="?page=category&id=0">Добавить категорию</a>
-    <?php if (isset($id)) {
-
+    <?php if (isset($id) && !$action) {
         $title = '';
         if ($id > 0) {
             $category = mysqli_fetch_assoc(categoryList($id));
@@ -53,11 +70,22 @@ $categoryResult = categoryList();
             ?>
             <li>
                 <a href="?page=category&id=<?= $category['id'] ?>">
-                    <?= $category['id'] ?>: <?= $category['title'] ?>
-                </a>
+                    <?= $category['id'] ?>: <?= $category['title'] ?></a>
+
+                <a href="?page=category&id=<?= $category['id'] ?>&action=delete">
+                    [x]</a>
             </li>
             <?php
         }
         ?>
     </ul>
+</div>
+<div>Страницы:
+    <?php foreach ($pagination as $k => $v): ?>
+        <?php if ($v['current']): ?>
+            <b><?= $k ?></b>
+        <?php else: ?>
+            <a href="<?= $v['params'] ?>"><?= $k ?></a>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </div>

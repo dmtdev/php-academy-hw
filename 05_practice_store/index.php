@@ -7,11 +7,18 @@
  */
 include_once('lib/core.php');
 
-$incPath = $_SERVER['DOCUMENT_ROOT'].'/05_practice_store/inc/public';
+$inc = [
+    'index.php'=>'public',
+    'admin.php'=>'admin'
+];
+$script = explode('/',$_SERVER['PHP_SELF']);
+$script = $script[count($script)-1];
+
+$incPath = $_SERVER['DOCUMENT_ROOT'].'/05_practice_store/inc/'.$inc[$script];
 
 $page = 'main';
 
-if ($_GET['page']) {
+if (isset($_GET['page'])) {
     $page = str_replace('/', '', $_GET['page']);
 }
 
