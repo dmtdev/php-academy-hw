@@ -23,10 +23,11 @@ if (isset($_POST['save'])) {
             $result = createCategory($data);
         }
     }
-    if ($action == 'delete') {
-        if (!deleteCategory($id)) {
-            $errors[] = 'Can\'t delete an entry, possibly not empty Category';
-        }
+}
+
+if ($action == 'delete') {
+    if (!deleteCategory($id)) {
+        $errors[] = 'Can\'t delete an entry, possibly not empty Category';
     }
 }
 

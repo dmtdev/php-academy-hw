@@ -26,9 +26,9 @@ if (isset($_POST['save'])) {
             $result = createProduct($data);
         }
     }
-    if ($action == 'delete') {
-        deleteProduct($id);
-    }
+}
+if ($action == 'delete'){
+    deleteProduct($id);
 }
 
 $id = (isset($_GET['id']) ? $_GET['id'] : null);
