@@ -23,6 +23,11 @@ if (isset($_POST['save'])) {
             $result = createCategory($data);
         }
     }
+    if ($action == 'delete') {
+        if (!deleteCategory($id)) {
+            $errors[] = 'Can\'t delete an entry, possibly not empty Category';
+        }
+    }
 }
 
 $id = (isset($_GET['id']) ? $_GET['id'] : null);
@@ -32,12 +37,6 @@ $categoryResult = categoryList(null, $currentPage);
 $pagination = buildPagination(countCategories(), $currentPage, $categoryPerPage);
 $errors = [];
 
-if ($action == 'delete') {
-    if (deleteCategory($id)) {
-        header('Location: ?page=category');
-    }
-    $errors[] = 'Can\'t delete an entry, possibly not empty Category';
-}
 
 if (count($errors)) {
     $errors = join('<br />', $errors); ?>

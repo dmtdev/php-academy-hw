@@ -48,7 +48,7 @@ function buildGetParams($params = [])
 /**
  * @return array
  */
-function buildOptions()
+function buildCategoriesOptions()
 {
     $options = [];
     $categoryResult = categoryList();

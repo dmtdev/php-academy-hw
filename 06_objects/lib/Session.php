@@ -38,4 +38,7 @@ class Session
     {
         return isset($_SESSION[$name]);
     }
+    public function __destruct(){
+        session_write_close();
+    }
 }

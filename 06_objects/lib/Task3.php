@@ -10,10 +10,10 @@ class Task3 extends Task2
 {
     private function checkAge($age)
     {
-        if ($age > 0 && $age <= 100) {
-            return true;
-        }
-        return false;
+//        if ($age > 0 && $age <= 100) {
+//            return true;
+//        }
+        return $age <= 100 && $age > 0;
     }
 
     public function setAge($age)

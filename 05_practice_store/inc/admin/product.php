@@ -26,6 +26,9 @@ if (isset($_POST['save'])) {
             $result = createProduct($data);
         }
     }
+    if ($action == 'delete') {
+        deleteProduct($id);
+    }
 }
 
 $id = (isset($_GET['id']) ? $_GET['id'] : null);
@@ -39,14 +42,9 @@ if ($categoryId) {
     $pagination = buildPagination(countProducts($categoryId), $currentPage, $categoryPerPage);
 }
 $errors = [];
-$options = buildOptions();
+$options = buildCategoriesOptions();
 
-if ($action == 'delete') {
-    if (deleteProduct($id)) {
-        header('Location: ?page=product&category_id=' . $categoryId);
-    }
-    //$errors[] = 'Can\'t delete an entry, possibly not empty Category';
-}
+
 ?>
 <div>
     <a href="?page=product&id=0">Добавить продукт</a>

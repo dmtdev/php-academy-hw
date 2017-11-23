@@ -27,40 +27,40 @@ class Form
         ],
     ];
 
-    public function open($data)
+//    public function open($data)
+//    {
+//        return $this->parseData($data);
+//    }
+//
+//    public function input($data)
+//    {
+//
+//        return $this->parseData($data);
+//    }
+//
+//    public function password($data)
+//    {
+//        return $this->parseData($data);
+//    }
+//
+//    public function textarea($data)
+//    {
+//        return $this->parseData($data);
+//    }
+//
+//    public function submit($data)
+//    {
+//        return $this->parseData($data);
+//    }
+//
+//    public function close()
+//    {
+//        return $this->parseData();
+//    }
+    public function __call($caller, $arguments)
     {
-        return $this->parseData($data);
-    }
+        $data = count($arguments)?$arguments[0]:false;
 
-    public function input($data)
-    {
-
-        return $this->parseData($data);
-    }
-
-    public function password($data)
-    {
-        return $this->parseData($data);
-    }
-
-    public function textarea($data)
-    {
-        return $this->parseData($data);
-    }
-
-    public function submit($data)
-    {
-        return $this->parseData($data);
-    }
-
-    public function close()
-    {
-        return $this->parseData();
-    }
-
-    private function parseData($data = [])
-    {
-        $caller = debug_backtrace()[1]['function'];
         switch ($caller) {
             case 'open':
             case 'input':
@@ -80,6 +80,12 @@ class Form
         }
         return $result;
     }
+
+//    private function parseData($data = [])
+//    {
+//        $caller = debug_backtrace()[1]['function'];
+//
+//    }
 
     private function makeOptions($data)
     {
