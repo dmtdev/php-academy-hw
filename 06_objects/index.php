@@ -84,6 +84,13 @@ var_dump($s->isSetVar('name'));
 echo ob_get_clean();
 
 
-
-
+//print_r ( get_declared_classes ()) ;
+$class = new ReflectionClass('Form');
+//$a = Reflection::export($class);
+$methods = $class->getMethods();
+var_dump($methods);
+foreach ($methods as $method) {
+    //$m = new ReflectionMethod($class->getName(),$method->getName());
+    var_dump($method->getParameters());
+}
 

@@ -42,20 +42,20 @@ if (!empty($_GET['page'])) {
     foreach ($parts as $part) {
         ob_start();
         include 'inc' . DS . $part . '.php';
-        if (isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']) {
-            $partContent = str_ireplace(
-                '{{basket}}',
-                "В корзине 3 товара",
-                ob_get_clean()
-            );
-        } else {
-            $partContent = str_ireplace(
-                '{{basket}}',
-                "",
-                ob_get_clean()
-            );
-        }
-
+        $partContent = ob_get_clean();
+//        if (isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']) {
+//            $partContent = str_ireplace(
+//                '{{basket}}',
+//                "В корзине 3 товара",
+//                ob_get_clean()
+//            );
+//        } else {
+//            $partContent = str_ireplace(
+//                '{{basket}}',
+//                "",
+//                ob_get_clean()
+//            );
+//        }
         echo $partContent;
     }
     ?>
@@ -65,14 +65,14 @@ if (!empty($_GET['page'])) {
 $pageContent = '';
 if (isset($_SESSION['auth']['state']) && $_SESSION['auth']['state']) {
     $pageContent = str_ireplace(
-        '{{login}}',
-        'Привет, ' . $_SESSION['auth']['login'],
+        ['{{login}}','{{basket}}'],
+        ['Привет, ' . $_SESSION['auth']['login'],'В корзине 3 товара'],
         ob_get_clean()
     );
 } else {
     $pageContent = str_ireplace(
-        '{{login}}',
-        '',
+        ['{{login}}','{{basket}}'],
+        ['',''],
         ob_get_clean()
     );
 }

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = 'Пароли не совпадают';
     }
     if (!count($errors)) {
-        $usersData = unserialize(file_get_contents('inc' . DS . $config['usersdb']));
+        $usersData = unserialize(file_get_contents($config['usersdb']));
         if (!is_array($usersData)) {
             $usersData = [];
         }
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'name' => $post['login'],
                 'password' => sha1($post['password1'] . $config['salt'])
             );
-            $fp = fopen('inc' . DS . $config['usersdb'], 'w');
+            $fp = fopen($config['usersdb'], 'w');
             fwrite($fp, serialize($usersData));
             fclose($fp);
             $_SESSION['auth'] = [

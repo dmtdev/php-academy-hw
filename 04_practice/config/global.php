@@ -10,7 +10,7 @@ return [
     'salt' => $salt,
     'company' => 'Наша Компания',
     'pageIdParam' => 'page',
-    'usersdb' => 'usersdb',
+    'usersdb' => 'inc'.DS.'usersdb',
     'pages' => [
         'main' => [
             'title' => 'Наша Компания',
