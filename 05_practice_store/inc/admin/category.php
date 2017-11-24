@@ -25,14 +25,14 @@ if (isset($_POST['save'])) {
     }
 }
 
+$action = (isset($_GET['action']) ? $_GET['action'] : null);
+$id = (isset($_GET['id']) ? $_GET['id'] : null);
 if ($action == 'delete') {
     if (!deleteCategory($id)) {
         $errors[] = 'Can\'t delete an entry, possibly not empty Category';
     }
 }
 
-$id = (isset($_GET['id']) ? $_GET['id'] : null);
-$action = (isset($_GET['action']) ? $_GET['action'] : null);
 $currentPage = (isset($_GET['page_num']) ? $_GET['page_num'] : 1);
 $categoryResult = categoryList(null, $currentPage);
 $pagination = buildPagination(countCategories(), $currentPage, $categoryPerPage);
